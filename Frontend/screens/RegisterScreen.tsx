@@ -2,6 +2,10 @@ import { useState } from 'react';
 import { Text, View, TouchableOpacity, Alert, TextInput, Image } from 'react-native';
 import { CustomButton } from 'components/CustomButton';
 import RNPickerSelect from 'react-native-picker-select';
+import { LoginScreen } from './LoginScreen';
+import Modal from 'react-native-modal';
+import LoadingModal from 'components/LoadingModal';
+
 
 export const RegisterScreen = ({ navigation }) => {
     const [FName, setFName] = useState("");
@@ -11,6 +15,44 @@ export const RegisterScreen = ({ navigation }) => {
     const [pass, setPass] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+
+    const registerUser = async () => {
+        try{
+            setIsLoading(true);
+
+            const response = await fetch('http://192.168.1.21:5000/register', {
+                method:'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    FName,
+                    LName,
+                    email,
+                    org,
+                    pass,
+                    confirmPass
+                })
+            })
+
+            const data = await response.json();
+            console.log(data)
+            if(response.ok){
+                Alert.alert('Success', 'Registration Successful',
+                    [{text: 'OK', onPress: () => {
+                        navigation.replace('Login');
+                    }}]
+                )
+            }else{
+                Alert.alert("Error", data.error)
+            }
+
+        }catch(err){
+            console.log(err)
+        }finally{
+            setIsLoading(false)
+        }
+    }
 
     // Password visibility toggle icons
     const eyeOpen = <Image source={require("../assets/eye-open.png")} style={{ width: 20, height: 20 }} />;
@@ -136,7 +178,7 @@ export const RegisterScreen = ({ navigation }) => {
 
             {/* Buttons */}
             <View className="flex-[2.5] bg-white">
-                <CustomButton onPress={() => navigation.navigate('Login')} title="Sign Up" titleColor="white" backgroundColor="#003A6C" height={50} width="75%" margin={20} />
+                <CustomButton onPress={() => registerUser()} title="Sign Up" titleColor="white" backgroundColor="#003A6C" height={50} width="75%" margin={20} />
                 <CustomButton onPress={() => Alert.alert("Notice", "This feature is still under development")} title="Continue with Google Account" backgroundColor="white" height={50} width="75%" margin={2} />
 
                 {/* Sign In Link */}
@@ -147,6 +189,7 @@ export const RegisterScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <LoadingModal isVisible={isLoading}/>
         </View>
     );
 };

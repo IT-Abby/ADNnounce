@@ -1,7 +1,66 @@
 import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { CustomButton } from 'components/CustomButton';
+import { useState, useEffect } from 'react';
+import { auth, signInWithCustomToken,signInWithEmailAndPassword } from '../firebase';
+import Modal from 'react-native-modal'; 
+
+
 
 export const LoginScreen = ({ navigation }) => {
+  const [email, setEmail] = useState('')
+  const [pass, setPass] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async () => {
+  if (!email.trim() || !pass.trim()) {
+    Alert.alert('Error', 'Please fill in all fields');
+    return;
+  }
+
+  try {
+    console.log("Logging in with:", email, pass);
+    const userCredential = await signInWithEmailAndPassword(auth, email.trim(), pass.trim());
+    
+    console.log("Login Successful:", userCredential.user);
+
+    // Fetch Firebase ID Token
+    const idToken = await userCredential.user.getIdToken();
+    console.log("Firebase ID Token:", idToken);
+
+    // Send Token to Backend
+    const response = await fetch('http://192.168.1.21:5000/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken }),
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      Alert.alert('Success', 'Logged in successfully');
+      console.log("Backend Token:", data.token);
+      navigation.reset({
+        index: 0,  // Make sure to reset the stack to the first screen
+        routes: [{ name: 'Home' }],  // Navigate to Home after successful login
+      });
+    } else {
+      Alert.alert('Login Failed', data.message);
+    }
+
+  } catch (error) {
+    console.error("Firebase Login Error:", error.code, error.message);
+
+    let errorMessage = "Login failed. Please try again.";
+    if (error.code === "auth/invalid-credential") errorMessage = "Invalid email or password.";
+    else if (error.code === "auth/user-not-found") errorMessage = "User does not exist.";
+    else if (error.code === "auth/wrong-password") errorMessage = "Incorrect password.";
+    else if (error.code === "auth/too-many-requests") errorMessage = "Too many failed attempts. Try again later.";
+
+    Alert.alert("Login Error", errorMessage);
+  }
+};
+
+
+
   return (
     <View className="flex-1">
       <View className="flex-[9] bg-white">
@@ -24,6 +83,8 @@ export const LoginScreen = ({ navigation }) => {
               borderRadius: 10,
               paddingHorizontal: 10,
             }}
+            value={email}
+            onChangeText={setEmail}
             placeholder='Enter Email'
           />
 
@@ -40,6 +101,8 @@ export const LoginScreen = ({ navigation }) => {
               paddingHorizontal: 10,
             }}
             placeholder='Enter Password'
+            value={pass}
+            onChangeText={setPass}
             secureTextEntry={true}
           />
 
@@ -54,7 +117,7 @@ export const LoginScreen = ({ navigation }) => {
           {/* Login Button */}
           <View className="w-full">
             <CustomButton
-              onPress={() => navigation.navigate('Login')}
+              onPress={() => handleLogin()}
               title='Login'
               backgroundColor='#FFFFFF'
               titleColor='#003A6C'
