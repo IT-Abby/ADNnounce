@@ -46,7 +46,7 @@ export default function StudentScreen({ navigation }) {
           {/* Admin */}
           <View className="w-full">
             <CustomButton
-              onPress={() => handleLogin()}
+              onPress={() => handleLogin()} //Admin Registration pa
               title="Admin"
               backgroundColor="#FFFFFF"
               titleColor="#003A6C"
