@@ -65,7 +65,7 @@ export const LoginScreen = ({ navigation }) => {
         <View className="h-full w-full items-center justify-center rounded-b-[150px] bg-darkBlue">
           {/* Logo Section */}
           <View>
-            <Image source={logo} />
+            <Image source={logo} style={{ width: 150, height: 150 }} />
           </View>
 
           {/* Email Input */}
@@ -148,9 +148,11 @@ export const LoginScreen = ({ navigation }) => {
       </View>
 
       <View className="flex-[1] flex-row items-center justify-center bg-white">
-        <Text>Don't Have An account? </Text>
+        <Text style={{ color: '#003A6C' }}>Don't Have An account? </Text>
         <TouchableOpacity className="mx-1" onPress={() => navigation.navigate('Register')}>
-          <Text style={{ textDecorationLine: 'underline' }}>Register Now</Text>
+          <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', color: '#003A6C' }}>
+            Register Now
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
