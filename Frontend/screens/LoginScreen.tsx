@@ -149,7 +149,7 @@ export const LoginScreen = ({ navigation }) => {
 
       <View className="flex-[1] flex-row items-center justify-center bg-white">
         <Text style={{ color: '#003A6C' }}>Don't Have An account? </Text>
-        <TouchableOpacity className="mx-1" onPress={() => navigation.navigate('Register')}>
+        <TouchableOpacity className="mx-1" onPress={() => navigation.navigate('Student')}>
           <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', color: '#003A6C' }}>
             Register Now
           </Text>
