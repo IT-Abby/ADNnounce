@@ -5,8 +5,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import './global.css';
 import { HomeScreen } from 'screens/HomeScreen';
 import { LoginScreen } from 'screens/LoginScreen';
-import { OnBoardingScreen } from 'screens/OnBoardingScreen';
+import { RegisterAdminScreen } from 'screens/RegisterAdminScreen';
 import { RegisterScreen } from 'screens/RegisterScreen';
+import { OnBoardingScreen } from 'screens/OnBoardingScreen';
+
 import StudentScreen from 'screens/StudentOrAdminScreen';
 
 import { auth, onAuthStateChanged } from './firebase';
@@ -51,6 +53,7 @@ export default function App() {
             <Stack.Screen name="OnBoarding" component={OnBoardingScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="AdminRegister" component={RegisterAdminScreen} />
             <Stack.Screen name="Student" component={StudentScreen} />
           </>
         )}
