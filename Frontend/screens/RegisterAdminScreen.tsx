@@ -5,7 +5,6 @@ import RNPickerSelect from 'react-native-picker-select';
 import { LoginScreen } from './LoginScreen';
 import Modal from 'react-native-modal';
 import LoadingModal from 'components/LoadingModal';
-import { blue } from 'react-native-reanimated/lib/typescript/Colors';
 
 export const RegisterAdminScreen = ({ navigation }) => {
   //Add for Page Name
@@ -144,6 +143,40 @@ export const RegisterAdminScreen = ({ navigation }) => {
                 {
                   label: 'AJMA',
                   value: { orgAbbr: 'AJMA', orgName: 'Ateneo Junior Marketing Association' },
+                },
+                {
+                  label: 'ANSA',
+                  value: { orgAbbr: 'ANSA', orgName: 'Ateneo Nursing Student Association ' },
+                },
+                {
+                  label: 'APSA',
+                  value: {
+                    orgAbbr: 'APSA',
+                    orgName: 'Association of Psychology Students of Ateneo',
+                  },
+                },
+                {
+                  label: 'JPIA',
+                  value: {
+                    orgAbbr: 'JPA',
+                    orgName: 'Junior Philippine Institution of Accountancy',
+                  },
+                },
+                {
+                  label: 'Liderato kan Nueva Atenista',
+                  value: { orgAbbr: 'Lideratos', orgName: 'Liderato kan Nueva Atenista' },
+                },
+                {
+                  label: 'Pillars Publication',
+                  value: { orgAbbr: 'PILLARS', orgName: 'Pillars Publication' },
+                },
+                {
+                  label: 'PIXEL',
+                  value: { orgAbbr: 'PIXEL', orgName: 'PIXEL' },
+                },
+                {
+                  label: 'TACTICS',
+                  value: { orgAbbr: 'TACTICS', orgName: 'TACTICS' },
                 },
               ]}
             />
