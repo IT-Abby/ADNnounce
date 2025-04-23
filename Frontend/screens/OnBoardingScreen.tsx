@@ -1,32 +1,47 @@
 import { useState, useRef } from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { CustomButton } from 'components/CustomButton';
+import { Container } from 'components/Container';
+import Slider from 'components/Slider';
+import { ImageSlider } from 'data/SliderData';
 
 export const OnBoardingScreen = ({ navigation }) => {
   return (
     <View className="flex-1">
-      <View className="flex-[7.5] bg-white">
-        <View className=" h-full items-center justify-center rounded-b-[150px] bg-customBlue"></View>
+      <View style={styles.container}>
+        <Slider itemList={ImageSlider} />
       </View>
-      <View className="flex-[2.5] bg-white">
+      <View className="flex-[2.5] bg-[#27408F]">
         <CustomButton
           onPress={() => navigation.navigate('Login')}
           title="Sign In"
-          backgroundColor="white"
+          backgroundColor="#E6EBF0"
+          titleColor="#00294D"
           height={50}
-          width="75%"
+          width="70%"
           margin={20}
+          titleStyle={{ fontWeight: 'bold' }}
         />
 
         <CustomButton
           onPress={() => navigation.navigate('Student')}
           title="Create New Account"
-          backgroundColor="#003A6C"
-          titleColor="white"
+          backgroundColor="#E6EBF0"
+          titleColor="#00294D"
           height={50}
-          width="75%"
+          width="70%"
+          titleStyle={{ fontWeight: 'bold' }}
         />
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 7.5,
+    backgroundColor: '#27408F',
+    justifyContent: 'center',
+    //alignItems: "center"
+  },
+});
